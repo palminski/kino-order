@@ -1,0 +1,24 @@
+{
+  "name": "movie-kinorder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop": "concurrently \"cd back-end && npm run dev\" \"cd front-end  && npm start \""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palminski/kino-order.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/palminski/kino-order/issues"
+  },
+  "homepage": "https://github.com/palminski/kino-order#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
