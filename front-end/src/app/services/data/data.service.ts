@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataService {
-
   //where we are getting the data from
   private apiUrl = 'http://localhost:3000';
 
