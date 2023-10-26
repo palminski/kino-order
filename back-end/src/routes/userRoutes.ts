@@ -26,7 +26,7 @@ router.get('/users', async (req: Request, res: Response) => {
         res.json(rows);
     }
     catch (error) {
-        res.status(500).json({error: "Failure to connect to database"})
+        res.status(500).json({ error: "Failure to connect to database" })
     }
     finally {
         connection.release();
@@ -34,12 +34,13 @@ router.get('/users', async (req: Request, res: Response) => {
 });
 
 //POST routes ====================================================================
+//add a user
 router.post('/add-user', async (req: Request, res: Response) => {
     try {
-        const {username, password} = req.body;
+        const { username, password } = req.body;
         //validate data recieved
         if (!username || !password) {
-            return res.status(400).json({message: "Username and password are required to add user"})
+            return res.status(400).json({ message: "Username and password are required to add user" })
         }
 
         const connection = await getConnection();
@@ -48,23 +49,59 @@ router.post('/add-user', async (req: Request, res: Response) => {
         const [rows] = await connection.query<RowDataPacket[]>(`SELECT * FROM users WHERE username = '${username}'`);
         if (rows.length > 0) {
             console.log('user already exists')
-            return res.status(409).json({message: "Username already exists with this username"})
+            return res.status(409).json({ message: "Username already exists with this username" })
         }
 
         //hashpassword
-        const hashedPassword: string = await bcrypt.hash(password,10);
+        const hashedPassword: string = await bcrypt.hash(password, 10);
         //create user
-        await connection.execute(`INSERT INTO users (username, hashed_password) VALUES (?,?)`, [username,hashedPassword]);
+        await connection.execute(`INSERT INTO users (username, hashed_password) VALUES (?,?)`, [username, hashedPassword]);
         console.log('user created successfully!');
-        res.status(201).json({message: 'user created successfully!'});
+        res.status(201).json({ message: 'user created successfully!' });
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Internal Server Error"})
+        res.status(500).json({ message: "Internal Server Error" })
     }
 })
-//create new user
 
+//create new user
+router.post('/login-user', async (req: Request, res: Response) => {
+    try {
+        const { username, password } = req.body;
+        //validate data recieved
+        if (!username || !password) {
+            return res.status(400).json({ message: "Username and password are required to add user" })
+        }
+
+        //get connection and find specified user
+        const connection = await getConnection();
+        const [rows] = await connection.query<RowDataPacket[]>(`SELECT hashed_password FROM users WHERE username = '${username}'`);
+        if (rows.length <= 0) {
+            console.log("user doesn't exist");
+            return res.status(409).json({ message: "user doesn't exist" })
+        }
+
+        //get hashed password
+        const hashedPassword: string = rows[0].hashed_password;
+
+        //check if password matches
+        const passwordIsValid: boolean = await bcrypt.compare(password, hashedPassword);
+
+        //check if this is the valid password
+        if (!passwordIsValid) {
+            return res.status(409).json({ message: "incorrect password" })
+        }
+
+        //login
+        console.log(`login result => ${passwordIsValid}`);
+        res.status(201).json({ message: 'user logged in successfully!' });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal Server Error" })
+    }
+})
 
 //export the router with the routes assigned
 module.exports = router;
