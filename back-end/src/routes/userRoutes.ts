@@ -1,7 +1,13 @@
 import { Router, Request, Response } from "express";
 import mysql, { RowDataPacket } from 'mysql2/promise';
 import bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
+
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+    throw new Error('Missing JWT secret!');
+}
 
 const router = Router();
 
@@ -95,7 +101,8 @@ router.post('/login-user', async (req: Request, res: Response) => {
 
         //login
         console.log(`login result => ${passwordIsValid}`);
-        res.status(201).json({ message: 'user logged in successfully!' });
+        const token = jwt.sign({username}, jwtSecret, {expiresIn: '1h'});
+        res.status(201).json({ message: 'user logged in successfully!', token });
     }
     catch (err) {
         console.log(err);
