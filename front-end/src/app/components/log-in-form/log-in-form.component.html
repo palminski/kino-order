@@ -1,0 +1,10 @@
+<h3>Log-In</h3>
+<form [formGroup]="LogInForm" (ngSubmit)="onSubmit()">
+    <label for="username">Username: </label>
+    <input id="username" formControlName="username" required/>
+
+    <label for="password">Password: </label>
+    <input id="password" formControlName="password" type="password" required/>
+
+    <button type="submit">Submit</button>
+</form>

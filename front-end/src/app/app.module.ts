@@ -9,6 +9,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { DataComponent } from './pages/data/data.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
+import { LogInComponent } from './pages/log-in/log-in.component';
+import { LogInFormComponent } from './components/log-in-form/log-in-form.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.comp
     HomeComponent,
     DataComponent,
     NavigationComponent,
-    SignUpFormComponent
+    SignUpFormComponent,
+    LogInComponent,
+    LogInFormComponent
   ],
   imports: [
     BrowserModule,
