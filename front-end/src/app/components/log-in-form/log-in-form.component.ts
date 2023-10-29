@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-log-in-form',
@@ -12,7 +13,7 @@ export class LogInFormComponent implements OnInit {
 
   private serverRoot: String = "http://localhost:3000";
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { };
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService) { };
 
   ngOnInit(): void {
     this.LogInForm = this.fb.group({
@@ -30,7 +31,7 @@ export class LogInFormComponent implements OnInit {
             console.log("Success! => ", response);
             const token = response.token;
             if (token) {
-              localStorage.setItem("token", token);
+              this.authService.login(token);
             }
             else {
               console.error("A token was not provided in the response!");
