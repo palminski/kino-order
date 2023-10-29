@@ -13,3 +13,11 @@ router.use((req: Request, res: Response) => {
 })
 
 module.exports = router;
+
+//list of routes fopr development
+// => root/testing/add-user
+// => root/testing/login-user
+//{
+//     "username":"postman",
+//     "password":"password"
+// }
