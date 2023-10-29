@@ -30,10 +30,10 @@ export class LogInFormComponent implements OnInit {
             console.log("Success! => ", response);
             const token = response.token;
             if (token) {
-              localStorage.setItem("token", token)
+              localStorage.setItem("token", token);
             }
             else {
-              console.error("A token was not provided in the response!")
+              console.error("A token was not provided in the response!");
             }
 
           },

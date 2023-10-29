@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent {
-
+  logOut() {
+    localStorage.removeItem("token");
+  }
 }
