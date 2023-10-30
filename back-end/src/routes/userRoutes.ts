@@ -110,5 +110,7 @@ router.post('/login-user', async (req: Request, res: Response) => {
     }
 })
 
+
+
 //export the router with the routes assigned
 module.exports = router;
